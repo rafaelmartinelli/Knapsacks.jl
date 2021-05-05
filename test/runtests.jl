@@ -16,3 +16,10 @@ end
     @test solution == [ 3, 5 ]
     @test sum(data.profits[j] for j in solution) == 15
 end
+
+@testset "KnapsackDinProg" begin
+    data = KnapsackData(10, [ 2, 3, 4, 5, 6 ], [ 2, 4, 5, 6, 10 ])
+    solution = solveKnapsackDinProg(data)
+    @test solution == [ 3, 5 ]
+    @test sum(data.profits[j] for j in solution) == 15
+end

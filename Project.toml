@@ -1,0 +1,13 @@
+name = "KnapsackLib"
+uuid = "86859df6-51c5-4863-9ac2-2c1ab8e53eb2"
+authors = ["Rafael Martinelli"]
+version = "0.1.0"
+
+[compat]
+julia = "1.6"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]

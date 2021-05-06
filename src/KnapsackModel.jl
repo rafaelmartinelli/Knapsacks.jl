@@ -1,8 +1,8 @@
 function solveKnapsackModel(data::KnapsackData, optimizer)
-    I = collect(1:length(data.weights))
+    I = collect(1:length(data.items))
     W = data.capacity
-    w = data.weights
-    p = data.profits
+    w = [ item.weight for item in data.items ]
+    p = [ item.profit for item in data.items ]
 
     model = Model(optimizer)
 

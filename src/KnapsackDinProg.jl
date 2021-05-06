@@ -1,10 +1,10 @@
 function solveKnapsackDinProg(data::KnapsackData)
-    profits = repeat([ -Inf ], length(data.weights) + 1, data.capacity + 1)
+    profits = repeat([ -Inf ], length(data.items) + 1, data.capacity + 1)
     profits[:, 1] .= 0.0
 
-    for i in 2:length(data.weights) + 1
-        w = data.weights[i - 1]
-        p = data.profits[i - 1]
+    for i in 2:length(data.items) + 1
+        w = data.items[i - 1].weight
+        p = data.items[i - 1].profit
 
         profits[i, :] = profits[i - 1, :]
 
@@ -21,10 +21,10 @@ function solveKnapsackDinProg(data::KnapsackData)
     end
 
     result = Int64[]
-    for i in length(data.weights) + 1:-1:2
+    for i in length(data.items) + 1:-1:2
         if profits[i, best] != profits[i - 1, best]
             push!(result, i - 1)
-            best -= data.weights[i - 1]
+            best -= data.items[i - 1].weight
         end
     end
     return reverse(result)

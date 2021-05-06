@@ -9,9 +9,7 @@ function solveKnapsackDinProg(data::KnapsackData)
         profits[i, :] = profits[i - 1, :]
 
         for j in w + 1:data.capacity + 1
-            if profits[i - 1, j - w] != -Inf
-                profits[i, j] = max(profits[i, j], profits[i - 1, j - w] + p)
-            end
+            profits[i, j] = max(profits[i, j], profits[i - 1, j - w] + p)
         end
     end
 

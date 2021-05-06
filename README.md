@@ -8,9 +8,9 @@
 This package solves Knapsack Problems (KP), by both Binary Programming and Dynamic Programming. First, it defines the `KnapsackData` type:
 ```julia
 struct KnapsackData
-    capacity ::Int64         # Knapsack capacity
-    weights  ::Vector{Int64} # Items' weights
-    profits  ::Vector{Int64} # Items' profits
+    capacity ::Int64           # Knapsack capacity
+    weights  ::Vector{Int64}   # Items' weights
+    profits  ::Vector{Float64} # Items' profits
 end
 ```
 

@@ -1,7 +1,7 @@
 struct KnapsackData
     capacity::Int64
     weights::Vector{Int64}
-    profits::Vector{Int64}
+    profits::Vector{Float64}
 end
 
 function Base.show(io::IO, data::KnapsackData)

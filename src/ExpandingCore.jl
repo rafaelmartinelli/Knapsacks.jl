@@ -32,7 +32,7 @@ mutable struct GlobalData
     GlobalData() = new([], 0, 0, 0, 0, 0, 0, 0, [], [], [], 0)
 end
 
-function solveKnapsackExpCore(data::KnapsackData)
+function solveKnapExpCore(data::KnapData)
     n = length(data.items)
 
     gd = GlobalData()
@@ -48,7 +48,7 @@ function solveKnapsackExpCore(data::KnapsackData)
 
     elebranch(gd, 0, gd.wsb - gd.capacity, gd.br - 1, gd.br)
     
-    return definesolution(gd), gd.z + gd.psb
+    return gd.z + gd.psb, definesolution(gd)
 end
 
 function partsort(gd::GlobalData, f::Int64, l::Int64, ws::Int64)

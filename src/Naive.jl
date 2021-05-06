@@ -1,4 +1,4 @@
-function solveKnapsackDinProg(data::KnapsackData)
+function solveKnapNaive(data::KnapData)
     profits = repeat([ -Inf ], length(data.items) + 1, data.capacity + 1)
     profits[:, 1] .= 0.0
 
@@ -20,12 +20,13 @@ function solveKnapsackDinProg(data::KnapsackData)
         end
     end
 
-    result = Int64[]
+    best_val = profits[end, best]
+    solution = Int64[]
     for i in length(data.items) + 1:-1:2
         if profits[i, best] != profits[i - 1, best]
-            push!(result, i - 1)
+            push!(solution, i - 1)
             best -= data.items[i - 1].weight
         end
     end
-    return reverse(result)
+    return best_val, reverse(solution)
 end

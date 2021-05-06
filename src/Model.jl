@@ -1,4 +1,4 @@
-function solveKnapsackModel(data::KnapsackData, optimizer)
+function solveKnapModel(data::KnapData, optimizer)
     I = collect(1:length(data.items))
     W = data.capacity
     w = [ item.weight for item in data.items ]
@@ -13,6 +13,6 @@ function solveKnapsackModel(data::KnapsackData, optimizer)
     optimize!(model)
     if termination_status(model) == MOI.OPTIMAL
         result = [ j for j in I if value(x[j]) > EPS ]
-        return result
+        return objective_value(model), result
     end
 end

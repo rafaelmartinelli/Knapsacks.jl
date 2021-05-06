@@ -1,14 +1,14 @@
 module KnapsackLib
 
-export KnapsackData, KnapsackItem, solveKnapsackModel, solveKnapsackDinProg, solveKnapsackExpCore
+export KnapData, KnapItem, solveKnapModel, solveKnapNaive, solveKnapExpCore
 
 using JuMP, LinearAlgebra
 
 const EPS = 1e-7
 
-include("KnapsackData.jl")
-include("KnapsackModel.jl")
-include("KnapsackDinProg.jl")
-include("KnapsackExpandingCore.jl")
+include("Data.jl")
+include("Model.jl")
+include("Naive.jl")
+include("ExpandingCore.jl")
 
 end

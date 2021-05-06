@@ -1,48 +1,31 @@
-struct Label
-    item::Int64
-    profit::Int64
-    weight::Int64
-    last::Union{Label, Nothing}
-end
-
 function solveKnapsackDinProg(data::KnapsackData)
-    profits = zeros(Int64, data.capacity + 1)
+    profits = repeat([ -Inf ], length(data.weights) + 1, data.capacity + 1)
+    profits[:, 1] .= 0.0
 
-    active = Label[]
-    next = Label[]
-    best = nothing
+    for i in 2:length(data.weights) + 1
+        w = data.weights[i - 1]
+        p = data.profits[i - 1]
 
-    for i in 1:length(data.weights)
-        weight = data.weights[i]
-        profit = data.profits[i]
+        profits[i, :] = profits[i - 1, :]
 
-        push!(active, Label(0, 0, 0, nothing))
-
-        while !isempty(active)
-            label = pop!(active)
-
-            new_weight = label.weight + weight
-            new_profit = label.profit + profit
-
-            if new_weight <= data.capacity && new_profit > profits[new_weight + 1]
-                profits[new_weight + 1] = new_profit
-
-                new_label = Label(i, new_profit, new_weight, label)
-                push!(next, new_label)
-
-                if best === nothing || best.profit < new_profit
-                    best = new_label
-                end
-            end
+        for j in w + 1:data.capacity + 1
+            profits[i, j] = max(profits[i, j], profits[i - 1, j - w] + p)
         end
+    end
 
-        active = copy(next)
+    best = 1
+    for j in 2:data.capacity + 1
+        if profits[end, j] > profits[end, best]
+            best = j
+        end
     end
 
     result = Int64[]
-    while best.item != 0
-        push!(result, best.item)
-        best = best.last
+    for i in length(data.weights) + 1:-1:2
+        if profits[i, best] != profits[i - 1, best]
+            push!(result, i - 1)
+            best -= data.weights[i - 1]
+        end
     end
     return reverse(result)
 end

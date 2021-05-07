@@ -1,7 +1,7 @@
 mutable struct Item
     index::Int64
     weight::Int64
-    profit::Number
+    profit::Int64
     solution::Bool
 end
 
@@ -27,13 +27,12 @@ mutable struct GlobalData
 
     estack::Vector{Int64}
 
-    dantzig::Int64
-
-    GlobalData() = new([], 0, 0, 0, 0, 0, 0, 0, [], [], [], 0)
+    GlobalData() = new([], 0, 0, 0, 0, 0, 0, 0, [], [], [])
 end
 
 function solveKnapExpCore(data::KnapData)
     n = length(data.items)
+    if n == 0 return 0, Int64[] end
 
     gd = GlobalData()
     gd.items = [ Item(i, data.items[i].weight, data.items[i].profit, false) for i in 1:n ]
@@ -49,6 +48,10 @@ function solveKnapExpCore(data::KnapData)
     elebranch(gd, 0, gd.wsb - gd.capacity, gd.br - 1, gd.br)
     
     return gd.z + gd.psb, definesolution(gd)
+end
+
+function det(a::Matrix{Int64})
+    return a[1, 1] * a[2, 2] - a[1, 2] * a[2, 1]
 end
 
 function partsort(gd::GlobalData, f::Int64, l::Int64, ws::Int64)
@@ -119,9 +122,7 @@ function heuristic(gd::GlobalData, f::Int64, l::Int64)
     gd.wsb = gd.capacity - ws
     gd.psb = ps
 
-    #TODO: Check if we need integral division!
     dz = (gd.capacity - gd.wsb) * gd.items[gd.br].profit ÷ gd.items[gd.br].weight
-    gd.dantzig = gd.psb + dz
 
     empty!(gd.estack)
     gd.z = 0

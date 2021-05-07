@@ -1,6 +1,5 @@
 function solveKnapNaive(data::KnapData)
-    profits = repeat([ -Inf ], length(data.items) + 1, data.capacity + 1)
-    profits[:, 1] .= 0.0
+    profits = zeros(Int64, length(data.items) + 1, data.capacity + 1)
 
     for i in 2:length(data.items) + 1
         w = data.items[i - 1].weight

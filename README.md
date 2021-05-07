@@ -3,14 +3,14 @@
 <!-- [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://rafaelmartinelli.github.io/KnapsackLib.jl/stable)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://rafaelmartinelli.github.io/KnapsackLib.jl/dev) -->
 [![Build Status](https://github.com/rafaelmartinelli/KnapsackLib.jl/workflows/CI/badge.svg)](https://github.com/rafaelmartinelli/KnapsackLib.jl/actions)
-[![Coverage](https://codecov.io/gh/rafaelmartinelli/KnapsackLib.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/rafaelmartinelli/KnapsackLib.jl)
+[![Coverage](https://codecov.io/gh/rafaelmartinelli/KnapsackLib.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/rafaelmartinelli/KnapsackLib.jl)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 This package solves Knapsack Problems (KP) using different algorithms. First, it defines the `KnapItem` and `KnapData` types:
 ```julia
 struct KnapItem
     weight::Int64           # Item weight
-    profit::Number          # Item profit
+    profit::Int64           # Item profit
 end
 
 struct KnapData
@@ -43,17 +43,17 @@ Benchmark results (time in seconds) for different maximum values for weights and
 ------------------------------------------------------------------------------
  MaxV\Items        10         50        100        500       1000  Algorithm
 ------------------------------------------------------------------------------
-            0.0001206  0.0018705  0.0076681  0.2205037  0.8768440  Naïve
-        10  0.0014689  0.0008209  0.0017506  0.0110000  0.0418939  Model
-            0.0001147  0.0001301  0.0001935  0.0008592  0.0017256  Exp Core
+            0.0000066  0.0000842  0.0003162  0.0115152  0.0585165  Naïve
+        10  0.0005138  0.0006685  0.0011759  0.0063126  0.0173382  Model
+            0.0000141  0.0000306  0.0000515  0.0002397  0.0003492  Exp Core
 ------------------------------------------------------------------------------
-            0.0002900  0.0099768  0.0451764  1.4290991  5.9682664  Naïve
-        50  0.0005964  0.0013730  0.0027424  0.0201457  0.0322329  Model
-            0.0000420  0.0002848  0.0003659  0.0021347  0.0017909  Exp Core
+            0.0000136  0.0003581  0.0014877  0.0632500  0.3000128  Naïve
+        50  0.0004836  0.0007185  0.0018582  0.0129172  0.0106744  Model
+            0.0000135  0.0000391  0.0000665  0.0002251  0.0003272  Exp Core
 ------------------------------------------------------------------------------
-            0.0004500  0.0159237  0.0742351  2.8241936 11.7709446  Naïve
-       100  0.0004603  0.0013097  0.0020115  0.0163233  0.0423875  Model
-            0.0000414  0.0003333  0.0003626  0.0012152  0.0020996  Exp Core
+            0.0000259  0.0004414  0.0023123  0.1315063  0.7479475  Naïve
+       100  0.0005052  0.0010954  0.0015549  0.0113286  0.0343576  Model
+            0.0000180  0.0000486  0.0000714  0.0002987  0.0004923  Exp Core
 ------------------------------------------------------------------------------
 ```
 

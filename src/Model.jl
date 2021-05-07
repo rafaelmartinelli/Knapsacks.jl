@@ -13,6 +13,6 @@ function solveKnapModel(data::KnapData, optimizer)
     optimize!(model)
     if termination_status(model) == MOI.OPTIMAL
         result = [ j for j in I if value(x[j]) > EPS ]
-        return objective_value(model), result
+        return round(Int64, objective_value(model)), result
     end
 end

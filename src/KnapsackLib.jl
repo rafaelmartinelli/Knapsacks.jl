@@ -2,7 +2,7 @@ module KnapsackLib
 
 export KnapData, KnapItem, solveKnapModel, solveKnapNaive, solveKnapExpCore
 
-using JuMP, LinearAlgebra
+using JuMP
 
 const EPS = 1e-7
 

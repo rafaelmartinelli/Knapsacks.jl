@@ -6,7 +6,12 @@
 [![Coverage](https://codecov.io/gh/rafaelmartinelli/KnapsackLib.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/rafaelmartinelli/KnapsackLib.jl)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
-This package solves Knapsack Problems (KP) using different algorithms. First, it defines the `KnapItem` and `KnapData` types:
+KnapsackLib solves Knapsack Problems (KP) using different algorithms.
+
+## Usage
+
+First, it defines the `KnapItem` and `KnapData` types:
+
 ```julia
 struct KnapItem
     weight::Int64           # Item weight
@@ -20,6 +25,7 @@ end
 ```
 
 Then, there are three available functions, which take a `KnapData` and return the optimal value and an `Array` with the selected items:
+
 ```julia
 # Solves KP using a naïve dynamic programming
 function solveKnapNaive(data::KnapsackData)
@@ -36,6 +42,18 @@ optimal, selected = solveKnapNaive(data)
 optimal, selected = solveKnapModel(data, GLPK.Optimizer)
 optimal, selected = solveKnapExpCore(data)
 ```
+
+## Installation
+
+KnapsackLib is *not* a registered Julia Package.
+You can install KnapsackLib through the Julia package manager.
+Open Julia's interactive session (REPL) and type:
+
+```julia
+] add https://github.com/rafaelmartinelli/KnapsackLib.jl
+```
+
+## Benchmark
 
 Benchmark results (time in seconds) for different maximum values for weights and profits, number of items and algorithms. Average times for 10 runs and using `@timed` (Model with GLPK).
 
@@ -57,11 +75,13 @@ Benchmark results (time in seconds) for different maximum values for weights and
 ------------------------------------------------------------------------------
 ```
 
-To install:
-```julia
-] add https://github.com/rafaelmartinelli/KnapsackLib.jl
-```
+## Related links
 
-Related links:
 - [David Pisinger's optimization codes](http://hjemmesider.diku.dk/~pisinger/codes.html)
-- [Bin Packing and Cutting Stock Lib](https://github.com/rafaelmartinelli/BPPLib.jl)
+
+## Other packages
+
+- [BPPLib.jl](https://github.com/rafaelmartinelli/BPPLib.jl): Bin Packing Problem and Cutting Stock Problem Lib
+- [GAPLib.jl](https://github.com/rafaelmartinelli/GAPLib.jl): Generalized Assignment Problem Lib
+- [CFLPLib.jl](https://github.com/rafaelmartinelli/CFLPLib.jl): Capacitated Facility Location Problem Lib
+- [CARPData.jl](https://github.com/rafaelmartinelli/CARPData.jl): Capacitated Arc Routing Problem Lib

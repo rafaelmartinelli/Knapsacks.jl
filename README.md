@@ -14,13 +14,13 @@ First, it defines the `KnapItem` and `KnapData` types:
 
 ```julia
 struct KnapItem
-    weight::Int64           # Item weight
-    profit::Int64           # Item profit
+    weight  ::Int64            # Item weight
+    profit  ::Int64            # Item profit
 end
 
 struct KnapData
-    capacity::Int64         # Knapsack capacity
-    items::Vector{KnapItem} # Items
+    capacity::Int64            # Knapsack capacity
+    items   ::Vector{KnapItem} # Items
 end
 ```
 

@@ -1,6 +1,6 @@
 module KnapsackLib
 
-export KnapData, KnapItem, solveKnapModel, solveKnapNaive, solveKnapExpCore
+export KnapData, KnapItem, solveKnapModel, solveKnapNaive, solveKnapExpCore, solveKnapHeur
 
 using JuMP
 
@@ -10,5 +10,6 @@ include("Data.jl")
 include("Model.jl")
 include("Naive.jl")
 include("ExpandingCore.jl")
+include("Heuristic.jl")
 
 end

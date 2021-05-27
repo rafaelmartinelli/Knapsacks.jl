@@ -34,6 +34,8 @@ function solveKnapExpCore(data::KnapData)
     n = length(data.items)
     if n == 0 return 0, Int64[] end
 
+    checkConsistency(data)
+
     gd = GlobalData()
     gd.items = [ Item(i, data.items[i].weight, data.items[i].profit, false) for i in 1:n ]
     gd.capacity = data.capacity
@@ -43,11 +45,23 @@ function solveKnapExpCore(data::KnapData)
     gd.lsort = interval.last
 
     gd.z = heuristic(gd, 1, n)
-    heur = gd.z + gd.psb
 
     elebranch(gd, 0, gd.wsb - gd.capacity, gd.br - 1, gd.br)
     
     return gd.z + gd.psb, definesolution(gd)
+end
+
+function checkConsistency(data::KnapData)
+    large = false
+    limit = isqrt(typemax(Int64))
+    negative = false
+    for item in data.items
+        large = large || (item.weight >= limit)
+        negative = negative || (item.weight < 0)
+    end
+
+    if large @warn "Large numbers may result in an overflow, leading to an undefined behavior." end
+    if negative @warn "Negative weights are not allowed, leading to an undefined behavior." end
 end
 
 function det(a::Matrix{Int64})

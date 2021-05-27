@@ -30,6 +30,16 @@ end
     @test data.items[3].profit == 6
 end
 
+@testset "DataOverflow" begin
+    msg = "Large numbers may result in an overflow, leading to an undefined behavior."
+    @test_logs (:warn, msg) data = KnapData(1, [ isqrt(typemax(Int64)) ], [ 1 ])
+end
+
+@testset "DataNegative" begin
+    msg = "Negative weights are not allowed, leading to an undefined behavior."
+    @test_logs (:warn, msg) data = KnapData(1, [ -1 ], [ 1 ])
+end
+
 @testset "DataItEmpty" begin
     data = KnapData(10, KnapItem[])
     @test_nowarn println(data)

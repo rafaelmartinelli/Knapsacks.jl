@@ -36,8 +36,9 @@ end
 end
 
 @testset "DataNegative" begin
-    msg = "Negative weights are not allowed, leading to an undefined behavior."
+    msg = "Negative weights or profits are not allowed, leading to an undefined behavior."
     @test_logs (:warn, msg) data = KnapData(1, [ -1 ], [ 1 ])
+    @test_logs (:warn, msg) data = KnapData(1, [ 1 ], [ -1 ])
 end
 
 @testset "DataItEmpty" begin

@@ -31,9 +31,9 @@ function checkConsistency(items::Vector{KnapItem})
     negative = false
     for item in items
         large = large || (abs(item.weight) >= limit)
-        negative = negative || (item.weight < 0)
+        negative = negative || (item.weight < 0) || (item.profit < 0)
     end
 
     if large @warn "Large numbers may result in an overflow, leading to an undefined behavior." end
-    if negative @warn "Negative weights are not allowed, leading to an undefined behavior." end
+    if negative @warn "Negative weights or profits are not allowed, leading to an undefined behavior." end
 end

@@ -43,7 +43,6 @@ function solveKnapExpCore(data::KnapData)
     gd.lsort = interval.last
 
     gd.z = heuristic(gd, 1, n)
-    heur = gd.z + gd.psb
 
     elebranch(gd, 0, gd.wsb - gd.capacity, gd.br - 1, gd.br)
     

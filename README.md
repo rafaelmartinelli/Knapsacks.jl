@@ -24,7 +24,7 @@ struct KnapData
 end
 ```
 
-Then, there are three available functions, which take a `KnapData` and return the optimal value and an `Array` with the selected items:
+Then, there are four available functions, which take a `KnapData` and return the optimal value and an `Array` with the selected items:
 
 ```julia
 # Solves KP using a naïve dynamic programming
@@ -33,6 +33,8 @@ function solveKnapNaive(data::KnapsackData)
 function solveKnapModel(data::KnapsackData, optimizer)
 # Solves KP using Pisinger's expanding core algorithm
 function solveKnapExpCore(data::KnapsackData)
+# Solves KP using a simple heuristic
+function solveKnapHeur(data::KnapsackData)
 ```
 Function `solveKnapModel` uses [JuMP](https://jump.dev/), and the user must pass the optimizer.
 
@@ -41,6 +43,7 @@ For example, given a `KnapData` instance `data`:
 optimal, selected = solveKnapNaive(data)
 optimal, selected = solveKnapModel(data, GLPK.Optimizer)
 optimal, selected = solveKnapExpCore(data)
+value, selected = solveKnapHeur(data)
 ```
 
 ## Installation

@@ -100,6 +100,27 @@ end
     @test val == 0
 end
 
+@testset "Heur" begin
+    data = KnapData(10, [ 2, 3, 4, 5, 6 ], [ 2, 4, 5, 6, 10 ])
+    val, sol = solveKnapHeur(data)
+    @test sol == [ 1, 4, 2 ]
+    @test val == 12
+end
+
+@testset "HeurEmpty" begin
+    data = KnapData(10, KnapItem[])
+    val, sol = solveKnapHeur(data)
+    @test sol == []
+    @test val == 0
+end
+
+@testset "HeurExceed" begin
+    data = KnapData(1, [ 2, 3, 4, 5, 6 ], [ 2, 4, 5, 6, 10 ])
+    val, sol = solveKnapHeur(data)
+    @test sol == []
+    @test val == 0
+end
+
 @testset "Random" begin
     for k in 1:100
         n = 100

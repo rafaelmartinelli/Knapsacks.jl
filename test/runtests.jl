@@ -133,12 +133,10 @@ end
 end
 
 @testset "Random" begin
+    types = [ :Uncorrelated, :WeakCorrelated, :StrongCorrelated, :SubsetSum ]
     for k in 1:100
         n = 100
-        weights = rand(1:100, n)
-        profits = rand(1:100, n)
-        capacity = sum(weights) ÷ 2
-        data = KnapData(capacity, weights, profits)
+        data = genKnap(n, n; type = types[k % 4 + 1])
         val1, sol1 = solveKnapNaive(data)
         val2, sol2 = solveKnapModel(data, GLPK.Optimizer)
         val3, sol3 = solveKnapNaive(data)

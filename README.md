@@ -104,6 +104,12 @@ Benchmark results (time in seconds) for different maximum values for weights and
 -----------------------------------------------------------------------------------------
 ```
 
+## How to cite this package
+
+You can use the [bibtex file](https://github.com/rafaelmartinelli/KnapsackLib.jl/blob/main/citation.bib) available in the project.
+
+Don't forget to star our package!
+
 ## Related links
 
 - [David Pisinger's optimization codes](http://hjemmesider.diku.dk/~pisinger/codes.html)

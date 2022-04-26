@@ -1,15 +1,15 @@
 name = "KnapsackLib"
 uuid = "86859df6-51c5-4863-9ac2-2c1ab8e53eb2"
 authors = ["Rafael Martinelli"]
-version = "0.4.1"
+version = "0.4.2"
 
 [deps]
 JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 
 [compat]
-JuMP = "0.21"
-julia = "1.6"
+JuMP = "1"
+julia = "1"
 
 [extras]
 GLPK = "60bf3e95-4087-53dc-ae20-288a0d20c6a6"

@@ -1,133 +1,114 @@
-using KnapsackLib
+using Knapsacks
 using Test
 using GLPK
 
 @testset "DataVec" begin
-    data = KnapData(10, [ 2, 3, 4, 5, 6 ], [ 2, 4, 6, 8, 10 ])
+    data = Knapsack(10, [ 2, 3, 4, 5, 6 ], [ 2, 4, 6, 8, 10 ])
     @test_nowarn println(data)
     @test data.capacity == 10
-    @test length(data.items) == 5
-    @test data.items[4].weight == 5
-    @test data.items[3].profit == 6
+    @test ni(data) == 5
+    @test data.weights[4] == 5
+    @test data.profits[3] == 6
 end
 
 @testset "DataVecEmpty" begin
-    data = KnapData(10, Int64[], Int64[])
+    data = Knapsack(10, Int64[], Int64[])
     @test_nowarn println(data)
     @test data.capacity == 10
-    @test length(data.items) == 0
-end
-
-@testset "DataIt" begin
-    weights = [ 2, 3, 4, 5, 6 ]
-    profits = [ 2, 4, 6, 8, 10 ]
-    items = [ KnapItem(weights[i], profits[i]) for i in 1:length(weights) ]
-    data = KnapData(10, items)
-    @test_nowarn println(data)
-    @test data.capacity == 10
-    @test length(data.items) == 5
-    @test data.items[4].weight == 5
-    @test data.items[3].profit == 6
+    @test ni(data) == 0
 end
 
 @testset "DataOverflow" begin
     msg = "Large numbers may result in an overflow, leading to an undefined behavior."
-    @test_logs (:warn, msg) data = KnapData(1, [ isqrt(typemax(Int64)) ], [ 1 ])
+    @test_logs (:warn, msg) data = Knapsack(1, [ isqrt(typemax(Int64)) ], [ 1 ])
 end
 
 @testset "DataNegative" begin
     msg = "Negative weights or profits are not allowed, leading to an undefined behavior."
-    @test_logs (:warn, msg) data = KnapData(1, [ -1 ], [ 1 ])
-    @test_logs (:warn, msg) data = KnapData(1, [ 1 ], [ -1 ])
-end
-
-@testset "DataItEmpty" begin
-    data = KnapData(10, KnapItem[])
-    @test_nowarn println(data)
-    @test data.capacity == 10
-    @test length(data.items) == 0
+    @test_logs (:warn, msg) data = Knapsack(1, [ -1 ], [ 1 ])
+    @test_logs (:warn, msg) data = Knapsack(1, [ 1 ], [ -1 ])
 end
 
 @testset "Model" begin
-    data = KnapData(10, [ 2, 3, 4, 5, 6 ], [ 2, 4, 5, 6, 10 ])
-    val, sol = solveKnapModel(data, GLPK.Optimizer)
+    data = Knapsack(10, [ 2, 3, 4, 5, 6 ], [ 2, 4, 5, 6, 10 ])
+    val, sol = solveKnapsack(data, :BinaryModel; optimizer = GLPK.Optimizer)
     @test sol == [ 3, 5 ]
     @test val == 15
 end
 
 @testset "ModelEmpty" begin
-    data = KnapData(10, KnapItem[])
-    val, sol = solveKnapModel(data, GLPK.Optimizer)
+    data = Knapsack(10, Int64[], Int64[])
+    val, sol = solveKnapsack(data, :BinaryModel; optimizer = GLPK.Optimizer)
     @test sol == []
     @test val == 0
 end
 
 @testset "ModelExceed" begin
-    data = KnapData(1, [ 2, 3, 4, 5, 6 ], [ 2, 4, 5, 6, 10 ])
-    val, sol = solveKnapModel(data, GLPK.Optimizer)
+    data = Knapsack(1, [ 2, 3, 4, 5, 6 ], [ 2, 4, 5, 6, 10 ])
+    val, sol = solveKnapsack(data, :BinaryModel; optimizer = GLPK.Optimizer)
     @test sol == []
     @test val == 0
 end
 
 @testset "Naive" begin
-    data = KnapData(10, [ 2, 3, 4, 5, 6 ], [ 2, 4, 5, 6, 10 ])
-    val, sol = solveKnapNaive(data)
+    data = Knapsack(10, [ 2, 3, 4, 5, 6 ], [ 2, 4, 5, 6, 10 ])
+    val, sol = solveKnapsack(data, :DynamicProgramming)
     @test sol == [ 3, 5 ]
     @test val == 15
 end
 
 @testset "NaiveEmpty" begin
-    data = KnapData(10, KnapItem[])
-    val, sol = solveKnapNaive(data)
+    data = Knapsack(10, Int64[], Int64[])
+    val, sol = solveKnapsack(data, :DynamicProgramming)
     @test sol == []
     @test val == 0
 end
 
 @testset "NaiveExceed" begin
-    data = KnapData(1, [ 2, 3, 4, 5, 6 ], [ 2, 4, 5, 6, 10 ])
-    val, sol = solveKnapNaive(data)
+    data = Knapsack(1, [ 2, 3, 4, 5, 6 ], [ 2, 4, 5, 6, 10 ])
+    val, sol = solveKnapsack(data, :DynamicProgramming)
     @test sol == []
     @test val == 0
 end
 
 @testset "ExpCore" begin
-    data = KnapData(10, [ 2, 3, 4, 5, 6 ], [ 2, 4, 5, 6, 10 ])
-    val, sol = solveKnapExpCore(data)
+    data = Knapsack(10, [ 2, 3, 4, 5, 6 ], [ 2, 4, 5, 6, 10 ])
+    val, sol = solveKnapsack(data, :ExpandingCore)
     @test sol == [ 3, 5 ]
     @test val == 15
 end
 
 @testset "ExpCoreEmpty" begin
-    data = KnapData(10, KnapItem[])
-    val, sol = solveKnapExpCore(data)
+    data = Knapsack(10, Int64[], Int64[])
+    val, sol = solveKnapsack(data, :ExpandingCore)
     @test sol == []
     @test val == 0
 end
 
 @testset "ExpCoreExceed" begin
-    data = KnapData(1, [ 2, 3, 4, 5, 6 ], [ 2, 4, 5, 6, 10 ])
-    val, sol = solveKnapExpCore(data)
+    data = Knapsack(1, [ 2, 3, 4, 5, 6 ], [ 2, 4, 5, 6, 10 ])
+    val, sol = solveKnapsack(data, :ExpandingCore)
     @test sol == []
     @test val == 0
 end
 
 @testset "Heur" begin
-    data = KnapData(10, [ 2, 3, 4, 5, 6 ], [ 2, 4, 5, 6, 10 ])
-    val, sol = solveKnapHeur(data)
-    @test sol == [ 1, 4, 2 ]
-    @test val == 12
+    data = Knapsack(10, [ 2, 3, 4, 5, 6 ], [ 2, 4, 5, 6, 10 ])
+    val, sol = solveKnapsack(data, :Heuristic)
+    @test sol == [ 5, 2 ]
+    @test val == 14
 end
 
 @testset "HeurEmpty" begin
-    data = KnapData(10, KnapItem[])
-    val, sol = solveKnapHeur(data)
+    data = Knapsack(10, Int64[], Int64[])
+    val, sol = solveKnapsack(data, :Heuristic)
     @test sol == []
     @test val == 0
 end
 
 @testset "HeurExceed" begin
-    data = KnapData(1, [ 2, 3, 4, 5, 6 ], [ 2, 4, 5, 6, 10 ])
-    val, sol = solveKnapHeur(data)
+    data = Knapsack(1, [ 2, 3, 4, 5, 6 ], [ 2, 4, 5, 6, 10 ])
+    val, sol = solveKnapsack(data, :Heuristic)
     @test sol == []
     @test val == 0
 end
@@ -136,10 +117,14 @@ end
     types = [ :Uncorrelated, :WeakCorrelated, :StrongCorrelated, :SubsetSum ]
     for k in 1:100
         n = 100
-        data = genKnap(n, n; type = types[k % 4 + 1])
-        val1, sol1 = solveKnapNaive(data)
-        val2, sol2 = solveKnapModel(data, GLPK.Optimizer)
-        val3, sol3 = solveKnapNaive(data)
+        data = generateKnapsack(n, n; type = types[k % 4 + 1])
+        val1, sol1 = solveKnapsack(data, :DynamicProgramming)
+        val2, sol2 = solveKnapsack(data, :BinaryModel; optimizer = GLPK.Optimizer)
+        val3, sol3 = solveKnapsack(data, :ExpandingCore)
         @test val1 == val2 == val3
     end
+end
+
+@testset "WrongRandom" begin
+    @test_throws ErrorException data = generateKnapsack(10, 10; type = :Bogus)
 end

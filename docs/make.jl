@@ -1,23 +1,23 @@
-using KnapsackLib
+using Knapsacks
 using Documenter
 
-DocMeta.setdocmeta!(KnapsackLib, :DocTestSetup, :(using KnapsackLib); recursive=true)
+DocMeta.setdocmeta!(Knapsacks, :DocTestSetup, :(using Knapsacks); recursive=true)
 
 makedocs(;
-    modules=[KnapsackLib],
+    modules=[Knapsacks],
     authors="Rafael Martinelli",
-    repo="https://github.com/rafaelmartinelli/KnapsackLib.jl/blob/{commit}{path}#{line}",
-    sitename="KnapsackLib.jl",
+    repo="https://github.com/rafaelmartinelli/Knapsacks.jl/blob/{commit}{path}#{line}",
+    sitename="Knapsacks.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://rafaelmartinelli.github.io/KnapsackLib.jl",
+        canonical="https://rafaelmartinelli.github.io/Knapsacks.jl",
         assets=String[],
     ),
     pages=[
-        "Home" => "index.md",
+        "Home" => "index.md"
     ],
 )
 
 deploydocs(;
-    repo="github.com/rafaelmartinelli/KnapsackLib.jl",
+    repo="github.com/rafaelmartinelli/Knapsacks.jl",
 )

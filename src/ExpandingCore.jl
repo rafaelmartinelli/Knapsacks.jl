@@ -30,19 +30,18 @@ mutable struct GlobalData
     GlobalData() = new([], 0, 0, 0, 0, 0, 0, 0, [], [], [])
 end
 
-function solveKnapExpCore(data::KnapData)
-    n = length(data.items)
-    if n == 0 return 0, Int64[] end
+function solveExpandingCore(data::Knapsack)
+    if ni(data) == 0 return 0, Int64[] end
 
     gd = GlobalData()
-    gd.items = [ Item(i, data.items[i].weight, data.items[i].profit, false) for i in 1:n ]
+    gd.items = [ Item(i, data.weights[i], data.profits[i], false) for i in 1:ni(data) ]
     gd.capacity = data.capacity
 
-    interval = partsort(gd, 1, n, 0)
+    interval = partsort(gd, 1, ni(data), 0)
     gd.fsort = interval.first
     gd.lsort = interval.last
 
-    gd.z = heuristic(gd, 1, n)
+    gd.z = heuristic(gd, 1, ni(data))
 
     elebranch(gd, 0, gd.wsb - gd.capacity, gd.br - 1, gd.br)
     

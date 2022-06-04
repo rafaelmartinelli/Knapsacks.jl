@@ -1,9 +1,9 @@
-function solveKnapNaive(data::KnapData)
-    profits = zeros(Int64, length(data.items) + 1, data.capacity + 1)
+function solveDynamicProgramming(data::Knapsack)
+    profits = zeros(Int64, ni(data) + 1, data.capacity + 1)
 
-    for i in 2:length(data.items) + 1
-        w = data.items[i - 1].weight
-        p = data.items[i - 1].profit
+    for i in 2:ni(data) + 1
+        w = data.weights[i - 1]
+        p = data.profits[i - 1]
 
         profits[i, :] = profits[i - 1, :]
 
@@ -21,10 +21,10 @@ function solveKnapNaive(data::KnapData)
 
     best_val = profits[end, best]
     solution = Int64[]
-    for i in length(data.items) + 1:-1:2
+    for i in ni(data) + 1:-1:2
         if profits[i, best] != profits[i - 1, best]
             push!(solution, i - 1)
-            best -= data.items[i - 1].weight
+            best -= data.weights[i - 1]
         end
     end
     return best_val, reverse(solution)

@@ -1,8 +1,8 @@
-function solveKnapModel(data::KnapData, optimizer)
-    I = collect(1:length(data.items))
+function solveBinaryModel(data::Knapsack, optimizer)
+    I = collect(1:ni(data))
     W = data.capacity
-    w = [ item.weight for item in data.items ]
-    p = [ item.profit for item in data.items ]
+    w = data.weights
+    p = data.profits
 
     model = Model(optimizer)
 

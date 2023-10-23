@@ -10,7 +10,7 @@ This package solves Knapsack Problems (KPs) using different algorithms.
 
 ## Usage
 
-First, it defines the `Knapsack` type:
+First, the package defines the `Knapsack` type:
 
 ```julia
 struct Knapsack
@@ -20,7 +20,7 @@ struct Knapsack
 end
 ```
 
-Then, there are four available solvers, called from a single function which takes a `Knapsack`, and returns the optimal/best value and an `Array` with the selected items:
+Then, there are four available solvers, called from a single function which takes a `Knapsack` instance, and returns the optimal/best value and an `Array` with the selected items:
 
 ```julia
 function solveKnapsack(data::KnapsackData, algorithm::Symbol = :ExpandingCore; optimizer = nothing)
@@ -28,7 +28,7 @@ function solveKnapsack(data::KnapsackData, algorithm::Symbol = :ExpandingCore; o
 
 Where `algorithm` must be one of the following:
 
-- `DynammicProgramming`: Solves KP using a naïve dynamic programming.
+- `DynamicProgramming`: Solves KP using a naïve dynamic programming.
 - `BinaryModel`: Solves KP using a binary programming model.
 - `ExpandingCore`: Solves KP using Pisinger's expanding core algorithm.
 - `Heuristic`: Solves KP using a simple heuristic.
@@ -38,7 +38,7 @@ Algorithm `BinaryModel` uses [JuMP](https://jump.dev/), and the user must pass t
 For example, given a `Knapsack` instance `data`:
 
 ```julia
-optimal, selected = solveKnapsack(data, :DynammicProgramming)
+optimal, selected = solveKnapsack(data, :DynamicProgramming)
 optimal, selected = solveKnapsack(data, :BinaryModel; optimizer = GLPK.Optimizer)
 optimal, selected = solveKnapsack(data, :ExpandingCore)
 value, selected = solveKnapsack(data, :Heuristic)
@@ -46,7 +46,7 @@ value, selected = solveKnapsack(data, :Heuristic)
 
 ## Instance generator
 
-The package is able to generate random instances with the following function (based on [this code](http://hjemmesider.diku.dk/~pisinger/generator.c)):
+The package is able to generate random instances of `Knapsack` with the following function (based on [this code](http://hjemmesider.diku.dk/~pisinger/generator.c)):
 
 ```julia
 function generateKnapsack(num_items::Int64, range::Int64 = 1000; type::Symbol = :Uncorrelated, seed::Int64 = 42, num_tests::Int64 = 1000)::Knapsack
@@ -62,12 +62,11 @@ Where:
 
 ## Installation
 
-This package is *not* yet a registered Julia Package.
-You can install Knapsacks through the Julia package manager.
+This package is a registered Julia Package, and can be installed through the Julia package manager.  
 Open Julia's interactive session (REPL) and type:
 
 ```julia
-] add https://github.com/rafaelmartinelli/Knapsacks.jl
+] add Knapsacks
 ```
 
 ## Benchmark
